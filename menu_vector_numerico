@@ -1,0 +1,254 @@
+funcion	InicializarVector(v por referencia,DF por valor)
+	definir i como entero;
+	para i<- 0 hasta (DF-1) Hacer
+		v(i)<- -1 ;
+	FinPara	
+FinFuncion
+//---------------------------------------------------
+
+
+funcion mostrarVector(v por referencia,DF por valor,dl por valor)
+	si dl>=0 Entonces
+		para i <- 0 hasta (dl) Hacer
+			escribir i,') ',v(i);
+		FinPara
+	sino
+		escribir ' _No hay elementos_ ';
+	FinSi
+	escribir dl+1,'/',df;
+FinFuncion
+//---------------------------------------------------
+
+funcion agregarAdelante(v por referencia,DF por valor,dl por referencia)
+	definir i como entero;
+	si (dl < DF-1) y (dl >=  0) Entonces
+		para i <- dl Hasta 0 Hacer
+			v(i+1) <- v(i);
+		FinPara
+		dl<- dl+1;
+		escribir '';
+		escribir 'Ingrese el numero';
+		leer v(0);
+
+	SiNo
+		si (dl < 0 ) Entonces
+			dl<- dl+1;
+			escribir '';
+			escribir 'Ingrese el numero';
+			leer v(0);
+		SiNo
+			escribir ' _Vector lleno_ '
+			escribir '';
+		FinSi
+	FinSi
+	
+FinFuncion
+//---------------------------------------------------
+
+Funcion agregarPos(v por referencia,DF por valor,dl por referencia,pos por valor)
+	definir i como entero;
+	si (dl+1<DF) y (dl>=0) y (pos<DF) y (pos>=0) Entonces
+		para i <- dl Hasta pos Hacer
+			v(i+1) <- v(i);
+		FinPara
+		escribir 'Ingrese el numero';
+		leer v(pos);
+		dl<-dl+1;		
+	SiNo
+		si (dl = 0) Entonces
+			escribir 'Ingrese el numero';
+			leer v(pos);
+			dl<-dl+1;		
+		SiNo
+			si (dl+1=DF) Entonces
+				escribir ' _Vector lleno_ ';
+				escribir '';
+			SiNo
+				escribir '_Posicion no Valida_';
+			FinSi
+		FinSi
+	FinSi
+	
+FinFuncion
+
+//---------------------------------------------------
+
+funcion agregarAtras(v por referencia, DF por valor,dl por referencia)
+	si dl<DF-1 Entonces
+		leer num;
+		dl<-dl+1;
+		v(dl)<-num;
+	
+	SiNo
+		escribir ' _Vector lleno_ ';
+		escribir '';	
+	FinSi
+FinFuncion
+//---------------------------------------------------
+
+
+//funcion quitarUltimo(v por referencia,dl por referencia)
+//	si (dl>0) Entonces
+//		dl<-dl-1;
+//		v(dl)<--1;
+//	FinSi
+//FinFuncion
+//---------------------------------------------------
+
+
+funcion ok <- buscarNum(v por referencia,DIM por valor,num por valor,pos Por Referencia)
+	definir i como entero;
+	definir ok como logico;
+	ok <- Falso;
+	i <- 0;
+	mientras (ok = falso) y (i <= DIM) Hacer
+		si (v(i) = num) Entonces
+			pos <- i;
+			ok <- verdadero;			
+		SiNo
+			i <- i +1;
+		FinSi
+		
+	FinMientras
+FinFuncion
+//---------------------------------------------------
+
+
+funcion buscarElemento(pos por referencia,v por referencia,DF por valor,dl por valor)
+	definir num como entero;
+	escribir 'Numero a buscar: ';
+	leer num;
+	
+	si buscarNum(v,dl,num,pos) Entonces
+		escribir 'Esta en la posicion ',pos;
+	FinSi
+	
+FinFuncion
+//---------------------------------------------------
+
+
+funcion quitarPos(pos por valor, v por referencia,dl por referencia)
+
+	si (pos >=0) y (pos<dl) Entonces
+		para i <- pos Hasta dl-1 Hacer
+			v(i)<-v(i+1);
+		FinPara
+		dl<-dl-1;
+	SiNo
+		si (pos=dl)  Entonces
+			dl<-dl-1;
+		FinSi
+	FinSi
+FinFuncion
+//---------------------------------------------------
+
+funcion cargarAzar(v por referencia,dl por referencia,DF por valor)
+	definir num,FINAL como entero;
+	num <- azar(100);
+	i<-0; FINAL <- -1;
+	mientras (i < DF) y (num <> FINAL) Hacer
+		v(i) <- num;
+		num <- azar(100)-1;
+		i<-i+1;
+	FinMientras
+	dl<-i-1;
+FinFuncion
+	
+
+
+funcion ordenarAscendente(v por referencia,DF por valor,dl por valor)
+	definir i,p como entero;
+	para i <- 0 hasta dl-1 Hacer
+		p <- i;
+		para j <- i+1 hasta dl-1 Hacer
+			si v(p) > v(j) entonces
+				p <- j;
+			FinSi			
+		FinPara
+		aux <- v(p);
+		v(p) <- v(i);
+		v(i) <- aux;
+	FinPara
+FinFuncion
+
+
+
+funcion menu(v por referencia,DF por valor,dl por referencia)
+	definir num,pos,opcionMenu,opcionAgregar como entero;
+	
+	escribir '1) Agregar elemento ';	
+	escribir '2) Buscar un elemento ';
+	escribir '3) Quitar en posicion ';
+	escribir '4) Ordenar';
+	escribir '5) Mostrar ';
+	escribir '0) Salir ';
+	leer opcionMenu;
+	mientras opcionMenu <> 0 Hacer
+		Segun opcionMenu Hacer
+			1:
+				escribir '1) Agregar Adelante ';	
+				escribir '2) Agregar Atras ';
+				escribir '3) Agregar en posicion ';
+				escribir '4) Cargar Aleatorio ';
+				escribir ' Atras ';
+				leer opcionAgregar;
+				segun opcionAgregar hacer
+					1:
+						agregarAdelante(v,DF,dl);
+					2:
+						agregarAtras(v,DF,dl);
+					3:
+						escribir 'En que posicion?'
+						leer pos;
+						agregarPos(v,DF,dl,pos);
+					4:
+						cargarAzar(v,dl,DF);
+					De Otro Modo:
+						escribir '1) Agregar elemento ';	
+						escribir '2) Buscar un elemento ';
+						escribir '3) Quitar en posicion ';
+						escribir '4) Ordenar';
+						escribir '5) Mostrar ';
+						escribir '0) Salir ';
+						leer opcionMenu;
+						
+				FinSegun
+			2:
+				buscarElemento(pos,v,DF,dl);
+			3:
+				escribir 'Ingrese la posicion';
+				leer pos;
+				quitarPos(pos,v,dl);
+			4:
+				ordenarAscendente(v,DF,dl);
+			5: 
+				mostrarVector(v,DF,dl);	escribir ' ';
+		
+		FinSegun
+		
+		
+		
+		escribir '1) Agregar elemento ';	
+		escribir '2) Buscar un elemento ';
+		escribir '3) Quitar en posicion ';
+		escribir '4) Ordenar';
+		escribir '5) Mostrar ';
+		escribir '0) Salir ';
+		leer opcionMenu;
+	FinMientras
+FinFuncion
+//---------------------------------------------------
+
+
+Algoritmo arreglo2_2
+	Definir DF como entero;
+	escribir 'Tama�o del arreglo: ';
+	leer DF;
+
+	Dimension v(DF);
+	DF<- DF; 
+	dl<- -1;	
+	InicializarVector(v,DF);
+
+	menu(v,DF,dl);
+FinAlgoritmo
